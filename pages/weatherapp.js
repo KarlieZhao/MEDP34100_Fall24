@@ -2,10 +2,10 @@
 class WeatherStation {
     //====================== constructor ==============================================
     // The constructor is a special method that initializes new objects.
-    // Create the constructor with an argument "location", and
-    // declare the following fields:
-    // location, temperature, humidity,pressure, weatherCondition, readings (object array)
     constructor(location) {
+        // The this keyword refers to the current instance of the class when used inside a class. 
+        // When you create multiple objects from a class, each object has its own set of instance variables. 
+        // The this keyword allows you to access and modify these instance-specific variables.
         this.location = location;
         this.temperature = 0;
         this.humidity = 0;
@@ -13,37 +13,34 @@ class WeatherStation {
         this.weatherCondition = 'Clear';
         this.readings = [];
     }
-    // When you create multiple objects from a class, 
-    // each object has its own set of instance variables. 
-    // The this keyword allows you to access and modify these instance-specific variables.
-    //======================== getter ============================================
+    //======================== getter and setter ============================================
     // the getCurrentWeather method (getter)
     // This method returns an object with the current weather data.
     // getter & setter methods get/set a single property
     // and follow a naming convention => get PropertyName()/set PropertyName().
-    // get curretWeather() {
-    //     return {
-    //         location: this.location,
-    //         temperature: this.temperature,
-    //         humidity: this.humidity,
-    //         pressure: this.pressure,
-    //         condition: this.weatherCondition,
-    //     }
-    // }
-    getCurrentWeather(){
+    // We typically use an underscore prefix for the internal property to avoid naming conflicts.
+    get temperature() {
+        return this._temperature;
+    }
+    set temperature(newTemperature) {
+        if (typeof newTemperature === 'number' && newTemperature >= -50 && newTemperature <= 50) {
+            this._temperature = newTemperature;
+        } else {
+            throw new Error('Invalid temperature. Must be a number between -50 and 50.');
+        }
+    }
+    //======================== method ============================================
+    // This method provides a clean interface for accessing/modifying data.
+    getCurrentWeather() {
         return {
             location: this.location,
             temperature: this.temperature,
             humidity: this.humidity,
             pressure: this.pressure,
-            condition: this.weatherCondition,
-        }
+            condition: this.weatherCondition
+        };
     }
 
-    set temperature(newTemperature) {
-        this._temperature = newTemperature;
-    }
-    //======================== methods ============================================
     getAverageTemperature(days = 1) {
         const msInDay = 24 * 60 * 60 * 1000;
         const recentReadings = this.readings.filter(reading =>
@@ -72,7 +69,7 @@ class WeatherStation {
         }
 
         // Store the reading
-        // this.readings is an array that holds JS objects 
+        // We're using this.readings as an array hold JS objects for better organizing the weather data.
         this.readings.push({
             timestamp: new Date(),
             temperature: this.temperature,
@@ -82,6 +79,7 @@ class WeatherStation {
         });
     }
 
+    // Add the displayCurrentWeather method
     displayCurrentWeather() {
         const weather = this.getCurrentWeather();
         console.log(`
@@ -94,15 +92,16 @@ class WeatherStation {
     }
 }
 
-// Create an instance and use the WeatherStation class
-let weatherToday = new WeatherStation("New York");
-// call the setter 
-// call the getter
-// console.log(weatherToday.curretWeather());
+// Create an instance under the WeatherStation class
+const cityWeather = new WeatherStation('New York');
 
-// // Simulate weather readings over time
+// Simulate weather readings over time
 for (let i = 0; i < 12; i++) {
-    // Take readings and display the current weather and average temperature
-    weatherToday.takeNewReading();
-   console.log(weatherToday.displayCurrentWeather());
+    // Display the current weather and average temperature
+    cityWeather.takeNewReading();
+    cityWeather.displayCurrentWeather();
+    console.log(`Average temperature over the last day: ${cityWeather.getAverageTemperature().toFixed(1)}°C`);
+
+
+    // ${} => template literal interpolation; allows embedding expressions inside string literals. 
 }
