@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>Portfolio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .artwork {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+
+        .artwork img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1 id="artistName"></h1>
+        <p id="artistBio"></p>
+    </header>
+    <main>
+        <h2>Artwork Gallery</h2>
+        <div id="gallery" class="gallery"></div>
+    </main>
+
+    <script>
+        // load JSON data if it's a seperate file? 
+        // method 1. fetch API
+        fetch("./catalog.json")
+            .then(response => {
+                if (response.ok) { //reponse => a promise consisting of metadata of our json data
+                    return response.json()
+                    //=> use .json() to get the actual json data, return it to pass it to the next step.
+                }
+                else {
+                    //if response not 'ok', print out the error;
+                    throw new Error(response.status);
+                }
+            })
+            .then(data => {
+                //here, data is a variable name representing what was returned from the prev section ("response.json()")
+                //it is essential the object in the catalog.json file
+                //we can pass it to the populatePortfolio() function for further processings. 
+                console.log(data);
+                populatePortfolio(data);
+            });
+
+        // method 2. jQuery
+        $.getJSON("./catalog.json", jsonData => { populatePortfolio(jsonData) })
+        // 2 arguments passed into getJSON(): url, callback function
+        // here, the callback is an inline function
+        // jsonData => the acutal json data as an object
+
+        function populatePortfolio(artistData) {
+            // Set artist name and bio
+            document.getElementById('artistName').textContent = artistData.name;
+            document.getElementById('artistBio').textContent = artistData.bio;
+
+            // Populate gallery
+            const gallery = document.getElementById('gallery');
+            artistData.artworks.forEach(artwork => {
+                const artworkElement = document.createElement('div');
+                artworkElement.className = 'artwork';
+                artworkElement.innerHTML = `
+                    <img src="${artwork.imageUrl}" alt="${artwork.title}">
+                    <h3>${artwork.title} (${artwork.year})</h3>
+                    <p><strong>Medium:</strong> ${artwork.medium}</p>
+                    <p>${artwork.description}</p>
+                `;
+                gallery.appendChild(artworkElement);
+            });
+        }
+
+    </script>
+</body>
+
+</html>
