@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        /* styles.css */
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+        }
+
+        .weather-app {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #444;
+        }
+
+        .input-group {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        input,
+        button {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        input {
+            flex: 1;
+            border: 1px solid #ddd;
+            margin-right: 5px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #weather-card {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #fff;
+            color: #333;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #weather-card h2 {
+            margin: 0;
+        }
+
+        #weather-card p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        #error-message {
+            margin-top: 10px;
+            color: #FF4D4D;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="weather-app">
+        <h1>Weather App 🌤</h1>
+        <div class="input-group">
+            <input type="text" id="city-input" placeholder="Enter city name">
+            <button onclick="fetchWeather()">Search</button>
+        </div>
+        <div id="weather-card" class="hidden">
+            <!-- Weather information will be dynamically inserted here -->
+        </div>
+        <div id="error-message" class="hidden"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
