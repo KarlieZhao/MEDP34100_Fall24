@@ -1,3 +1,7 @@
+const {
+    response
+} = require("express");
+
 async function fetchWeather() {
     const cityInput = document.getElementById('city-input').value;
     const weatherCard = document.getElementById('weather-card');
@@ -13,24 +17,39 @@ async function fetchWeather() {
     errorMessage.classList.add('hidden');
     weatherCard.innerHTML = "<p>Loading...</p>";
 
+    //fetching data using await and try/catch
+    // try {
+    //     //fetch data
+    //     const response = await fetch(url);
+    //     manipulating the url by adding api key & city name to fetch data;
+    //     if (!response.ok) throw new Error("Fetch failed");
+
+    //     const data = await response.json();
+    //     // console.log(data);
+    //     displayWeather(data);
+    // } catch (error) {
+    //     console.error("error message:" + error);
+    //     //if fetching is not successful, print status code: 
+    //     // 404 => data not existing
+    //     // 500 => server side issue
+    //     // ...
+    //     displayError(error);
+    // }
+
+    // call the fetching function in weather.js using HTTP method: POST
     try {
         const response = await fetch('/.netlify/functions/weather', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ city: cityInput }),
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch weather data');
-        }
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                city: cityInput
+            }),
+        })
+        if (!response.ok) throw new Error("Failed to fetch");
 
         const data = await response.json();
-
-        // Check if the expected data structure is present
-        if (!data.sys || !data.main || !data.weather) {
-            throw new Error('Unexpected response format. City may not exist.');
-        }
-
         displayWeather(data);
     } catch (error) {
         displayError(error.message);
