@@ -14,22 +14,23 @@ async function fetchWeather() {
     weatherCard.innerHTML = "<p>Loading...</p>";
 
     try {
-        // Call the Netlify Function instead of OpenWeatherMap directly
         const response = await fetch('/.netlify/functions/weather', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                city: cityInput
-            }),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ city: cityInput }),
         });
 
         if (!response.ok) {
-            throw new Error('City not found');
+            throw new Error('Failed to fetch weather data');
         }
 
         const data = await response.json();
+
+        // Check if the expected data structure is present
+        if (!data.sys || !data.main || !data.weather) {
+            throw new Error('Unexpected response format. City may not exist.');
+        }
+
         displayWeather(data);
     } catch (error) {
         displayError(error.message);
