@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>Portfolio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .artwork {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+
+        .artwork img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1 id="artistName"></h1>
+        <p id="artistBio"></p>
+    </header>
+    <main>
+        <h2>Artwork Gallery</h2>
+        <div id="gallery" class="gallery"></div>
+    </main>
+
+    <script>
+        //for reusability: 
+        //fetchData becomes a generic data fetcher that can be used with different callbacks:
+
+        //using .then chain to handle promises 
+        function fetchData(callback) {
+            fetch("./catalog.json")
+                .then(response => {
+                    if (response.ok) {
+                        return response.json()
+                    }
+                    else {
+                        throw new Error(response.status);
+                    }
+                })
+                .then(data => {
+                    console.log(data);
+                    callback(data);
+                });
+        }
+
+        //using an async function
+        async function fetchDataAsync(callback) {
+            try {
+                const response = await fetch("./catalog.json");
+                const catalog = await response.json();
+                console.log(catalog);
+                callback(catalog);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        function populatePortfolio(artistData) {
+            // Set artist name and bio
+            document.getElementById('artistName').textContent = artistData.name;
+            document.getElementById('artistBio').textContent = artistData.bio;
+
+            // Populate gallery
+            const gallery = document.getElementById('gallery');
+            artistData.artworks.forEach(artwork => {
+                const artworkElement = document.createElement('div');
+                artworkElement.className = 'artwork';
+                artworkElement.innerHTML = `
+                    <img src="${artwork.imageUrl}" alt="${artwork.title}">
+                    <h3>${artwork.title} (${artwork.year})</h3>
+                    <p><strong>Medium:</strong> ${artwork.medium}</p>
+                    <p>${artwork.description}</p>
+                `;
+                gallery.appendChild(artworkElement);
+            });
+        }
+        //method 1: fetch with .then chain
+        //populatePortfolio is the callback function
+        //note that we don't need to put the () while passing the function as a callback to another function
+        // fetchData(populatePortfolio);
+
+        //method 2. fetch with await
+        // fetchDataAsync(populatePortfolio);
+
+        // method 3. jQuery
+        // $.getJSON("./catalog.json", jsonData => { populatePortfolio(jsonData) })
+        // 2 arguments passed into getJSON(): url, callback function
+        // here, the callback is an inline function
+        // jsonData => the acutal json data as an object
+    </script>
+</body>
+
+</html>

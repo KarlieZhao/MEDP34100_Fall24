@@ -1,0 +1,48 @@
+{
+    "name": "Todd",
+    "bio": "Contemporary artist specializing in vibrant abstract paintings and digital art. Inspired by nature and urban landscapes.",
+    "artworks": [
+        {
+            "title": "Urban Rhythm",
+            "year": 2020,
+            "medium": "Acrylic on canvas",
+            "description": "A dynamic representation of city life",
+            "imageUrl": "./assets/urbanRhythm.jpg"
+        },
+        {
+            "title": "Digital Dreams",
+            "year": 2021,
+            "medium": "Digital painting",
+            "description": "Exploration of the subconscious through digital medium",
+            "imageUrl": "./assets/digitalDreams.jpg"
+        },
+        {
+            "title": "Nature's Embrace",
+            "year": 2021,
+            "medium": "Oil on canvas",
+            "description": "Abstract interpretation of a forest landscape",
+            "imageUrl": "./assets/nature.jpg"
+        },
+        {
+            "title": "Ethereal Motion",
+            "year": 2022,
+            "medium": "Acrylic on canvas",
+            "description": "A depiction of energy and movement in a dreamlike state.",
+            "imageUrl": "./assets/etherealMotion.jpg"
+        },
+        {
+            "title": " Fluid Realities",
+            "year": 2023,
+            "medium": "Oil on canvas",
+            "description": "An abstract representation of time and memory, blending past and present.",
+            "imageUrl": "./assets/fluidRealities.jpg"
+        },
+        {
+            "title": "Celestial Echoes",
+            "year": 2023,
+            "medium": "Digital painting",
+            "description": "An exploration of the cosmos through vibrant abstract forms.",
+            "imageUrl": "./assets/celestialEchoes.jpg"
+        }
+    ]
+}
