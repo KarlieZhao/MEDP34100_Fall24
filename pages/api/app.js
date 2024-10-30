@@ -1,9 +1,8 @@
-const apiKey = process.env.OPENWEATHER_API_KEY;
-
 async function fetchWeather() {
     const cityInput = document.getElementById('city-input').value;
     const weatherCard = document.getElementById('weather-card');
     const errorMessage = document.getElementById('error-message');
+    const apiKey = process.env.OPENWEATHER_API_KEY;
 
     if (!cityInput) {
         displayError("Please enter a city name.");
