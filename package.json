@@ -1,0 +1,15 @@
+{
+  "name": "medp34100_fall24",
+  "version": "1.0.0",
+  "description": "A collaborative repo for MEDP34100 Web Programming offered by the Film and Media dept at Hunter College, CUNY.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  }
+}
