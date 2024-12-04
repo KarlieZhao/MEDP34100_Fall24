@@ -1,3 +1,6 @@
+// root => /netlify/functions
+// weather.js
+
 const fetch = require('node-fetch');
 
 exports.handler = async (event) => {
